@@ -1,0 +1,5 @@
+RDS
+Postgres
+usuario: postgres
+pass: superpass789
+url: java-datos-postgres.co0ziiwlddeh.us-east-1.rds.amazonaws.com

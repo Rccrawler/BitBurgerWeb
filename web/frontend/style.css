@@ -1,0 +1,981 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #f0f4f8;
+    font-family: sans-serif;
+    /* No necesitamos position: relative en body ahora */
+}
+
+/* Contenido de ejemplo */
+.page-content {
+    padding: 100px 20px 20px 100px; /* Más espacio arriba/izquierda */
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Contenedor principal posicionado en la esquina superior izquierda */
+.expanding-button-container {
+    position: fixed; /* Fijo en la pantalla */
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    /* Necesitamos darle un tamaño para que los hijos 'absolute' se ubiquen bien */
+    /* O podemos dejar que el contenido lo defina */
+}
+
+/* El botón circular principal (LOGO) */
+.main-circular-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #ffcc80;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative; /* Para que esté encima del wrapper cuando no está activo */
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+
+.main-circular-button:active {
+    transform: scale(0.95);
+}
+
+/* Contenedor de opciones: ahora será el fondo y se posiciona relativo al botón */
+.options-wrapper {
+    position: absolute;
+    /* Lo colocamos donde está el botón principal */
+    top: 0;
+    left: 0;
+    width: 220px; /* Ancho del área desplegada */
+    height: 220px; /* Alto del área desplegada */
+    background-color: rgba(255, 204, 128, 0.85); /* Fondo naranja semitransparente */
+    border-radius: 0 50% 50% 50%; /* Redondeado para dar efecto "cuarto de círculo" o similar */
+    /* Podría ser simplemente border-radius: 30px; si no quieres forma de círculo */
+    /* O border-radius: 50%; si quieres el círculo completo */
+
+    opacity: 0;
+    transform: scale(0); /* Inicia escalado a cero */
+    transform-origin: top left; /* La animación de escala empieza desde la esquina sup izq */
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Transición con rebote */
+    z-index: 5; /* Detrás del botón principal */
+    padding: 10px; /* Espacio interno */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para cuando las opciones son visibles */
+.options-wrapper.visible {
+    opacity: 1;
+    transform: scale(1); /* Escala a tamaño normal */
+    pointer-events: auto;
+}
+
+/* Botones de opción dentro del wrapper */
+.option-button {
+    position: absolute; /* Mantenido (de option-N) */
+    /* <<< CAMBIOS >>> */
+    width: 65px; /* Ancho fijo para la mini-hamburguesa */
+    height: 50px; /* Alto fijo */
+    background-color: transparent; /* Sin fondo */
+    border: none; /* Sin borde */
+    border-radius: 0; /* Sin redondeo (lo darán los panes) */
+    cursor: pointer;
+    /* font-size: 12px; */ /* El tamaño lo dará el span interno */
+    /* color: #333; */ /* El color lo dará el span interno */
+    /* transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; */ /* Quitamos transiciones viejas */
+    text-align: center;
+    box-shadow: none; /* Sin sombra en el contenedor */
+    pointer-events: auto; /* Asegura que los botones sean clickables */
+    overflow: hidden; /* Importante para los panes */
+    padding: 0; /* Sin padding */
+    /* <<< FIN CAMBIOS >>> */
+}
+
+.option-button:hover {
+    background-color: #ffcc80;
+    color: #fff;
+    transform: none; /* Quitamos el scale(1.05) */
+}
+
+/* --- Posicionamiento de los Botones (Ejemplo) --- */
+/* Coordenadas relativas a la esquina superior izquierda del options-wrapper */
+/* Ajusta estos valores según necesites */
+
+/* --- Posicionamiento de los Botones (Ajustado para parecerse a la imagen) --- */
+/* Coordenadas relativas a la esquina superior izquierda del options-wrapper (0,0) */
+/* El botón principal (LOGO) ocupa aproximadamente 0-70px en top y left */
+
+/* Inicio (.option-1): A la derecha del LOGO */
+.option-1 {
+    top: 25px;  /* Alineado verticalmente cerca del centro del LOGO */
+    left: 85px; /* Justo a la derecha del LOGO */
+}
+
+/* Opción 1 (.option-2): Debajo del LOGO */
+.option-2 {
+    top: 85px;  /* Justo debajo del LOGO */
+    left: 20px; /* Alineado horizontalmente cerca del centro del LOGO */
+}
+
+/* Opción 2 (.option-3): Diagonal abajo-derecha, más adentro */
+.option-3 {
+    top: 95px;  /* Un poco más abajo que Opción 1 */
+    left: 95px; /* Más a la derecha, cerca de la posición de Inicio pero más abajo */
+}
+
+/* Perfil (.option-4): Más abajo, alineado con Opción 1 */
+.option-4 {
+    top: 145px; /* Bastante más abajo */
+    left: 20px;  /* Misma alineación horizontal que Opción 1 */
+}
+
+/* (Opcional) Si quieres que el fondo sea un círculo completo en lugar de un segmento */
+/* Puedes cambiar el border-radius del .options-wrapper así: */
+/*
+.options-wrapper {
+    ... otras propiedades ...
+    border-radius: 50%; // Hace que el fondo sea un círculo completo
+    ...
+}
+*/
+
+/* --- Keep other styles the same as your original file --- */
+
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #f0f4f8;
+    font-family: sans-serif;
+}
+
+/* Contenido de ejemplo */
+.page-content {
+    padding: 100px 20px 20px 100px; /* Más espacio arriba/izquierda */
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Contenedor principal posicionado en la esquina superior izquierda */
+.expanding-button-container {
+    position: fixed; /* Fijo en la pantalla */
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    /* Ajustamos el tamaño para que contenga al botón desplazado */
+    /* O podemos dejar que el contenido lo defina */
+    /* Démosle un tamaño un poco mayor que el wrapper para asegurar que quepa todo */
+    width: 230px; /* Suficiente para el wrapper de 220px */
+    height: 230px;
+    /* Importante: Para que el click fuera funcione correctamente */
+    pointer-events: none;
+}
+
+/* El botón circular principal (AHORA CON IMAGEN) */
+.main-circular-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    /* <<< CAMBIO: Fondo transparente >>> */
+    background-color: transparent;
+    border: none;
+    /* <<< CAMBIO: Quitamos estilos de texto >>> */
+    /* color: #333; */
+    /* font-size: 14px; */
+    /* font-weight: bold; */
+    cursor: pointer;
+    display: flex; /* Mantenemos flex para centrar la imagen */
+    justify-content: center; /* Mantenemos flex para centrar la imagen */
+    align-items: center; /* Mantenemos flex para centrar la imagen */
+    /* <<< CAMBIO: Quitamos la sombra (opcional) >>> */
+    box-shadow: none;
+    position: absolute; /* Mantenemos posición absoluta */
+    top: 15px;  /* Mantenemos desplazamiento */
+    left: 15px; /* Mantenemos desplazamiento */
+    z-index: 10;
+    transition: transform 0.2s ease;
+    pointer-events: auto;
+    /* <<< NUEVO: Evitar padding interno si lo hubiera >>> */
+    padding: 0;
+}
+
+.main-circular-button:active {
+    transform: scale(0.95); /* Esto ahora escalará la imagen */
+}
+
+/* Contenedor de opciones: círculo completo, posicionado en la esquina del contenedor */
+.options-wrapper {
+    position: absolute;
+    /* <<< CAMBIO: Lo iniciamos en 0,0 del CONTENEDOR >>> */
+    top: 0;
+    left: 0;
+    width: 220px; /* Ancho del área desplegada */
+    height: 220px; /* Alto del área desplegada */
+    background-color: rgba(255, 204, 128, 0.85); /* Fondo naranja semitransparente */
+    border-radius: 50%; /* Círculo completo */
+
+    opacity: 0;
+    transform: scale(0); /* Inicia escalado a cero */
+    /* El origen sigue siendo la esquina superior izquierda del *wrapper* */
+    transform-origin: top left;
+    pointer-events: none; /* Se activa con la clase .visible */
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 5; /* Detrás del botón principal */
+    /* padding: 10px; Quitamos padding para simplificar coords absolutas */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    /* <<< CAMBIO: Habilitar eventos de puntero cuando es visible >>> */
+    /* pointer-events se gestionará con la clase .visible */
+}
+
+/* Estilo para cuando las opciones son visibles */
+.options-wrapper.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto; /* Permite hacer clic dentro */
+}
+
+/* Botones de opción dentro del wrapper */
+.option-button {
+    position: absolute;
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 1px solid #ffcc80;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    pointer-events: auto; /* Asegura que los botones sean clickables */
+}
+
+.option-button:hover {
+    background-color: #ffcc80;
+    color: #fff;
+    transform: scale(1.05); /* Efecto hover */
+}
+
+/* <<< NUEVO: Estilo para la imagen del logo >>> */
+.main-circular-button .logo-image {
+    display: block; /* Para evitar espacios extra debajo de la imagen */
+    max-width: 100%; /* Asegura que no se salga del botón */
+    max-height: 100%; /* Asegura que no se salga del botón */
+    /* Opcional: si tu logo no es cuadrado, puedes ajustar cómo se muestra */
+    /* object-fit: contain; */ /* Mantiene la proporción, puede dejar espacio */
+    /* object-fit: cover; */   /* Mantiene la proporción, recorta si es necesario */
+}
+
+
+
+/* --- Posicionamiento de los Botones (AJUSTADO) --- */
+/* Coordenadas relativas a la esquina superior izquierda del options-wrapper (0,0) */
+/* El botón LOGO ahora está visualmente cerca de (15px, 15px) dentro del wrapper */
+/* Ajustamos las posiciones para que se vean bien alrededor del LOGO */
+
+/* Inicio (.option-1): Más a la derecha del nuevo LOGO */
+.option-1 {
+    top: 40px;  /* Un poco más abajo que el centro del LOGO */
+    left: 100px; /* A la derecha del LOGO */
+}
+
+/* Opción 1 (.option-2): Debajo y un poco a la izquierda del LOGO */
+.option-2 {
+    top: 100px; /* Más abajo */
+    left: 35px; /* Más a la izquierda que el LOGO */
+}
+
+/* Opción 2 (.option-3): Diagonal abajo-derecha del LOGO */
+.option-3 {
+    top: 110px; /* Un poco más abajo que Opción 1 */
+    left: 110px; /* Cerca del centro del wrapper */
+}
+
+/* Perfil (.option-4): Abajo, alineado con Opción 1 */
+.option-4 {
+    top: 165px; /* Más abajo */
+    left: 35px; /* Misma alineación horizontal que Opción 1 */
+}
+
+/* Contenedor interno para posicionar elementos de la hamburguesa */
+.option-button .option-burger-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex; /* Para centrar texto si fuera necesario */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo para los panes (adaptado de prueba boton.html) */
+.option-bun-top,
+.option-bun-bottom {
+    position: absolute;
+    left: 5px; /* Dejar un pequeño margen */
+    width: calc(100% - 10px); /* Ancho ajustado al margen */
+    height: 16px; /* Alto del pan */
+    background: #d18830; /* Color del pan */
+    z-index: 3;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+.option-bun-top {
+    top: 0;
+    border-radius: 12px 12px 4px 4px; /* Redondeo superior */
+}
+
+.option-bun-bottom {
+    bottom: 0;
+    border-radius: 4px 4px 12px 12px; /* Redondeo inferior */
+}
+
+/* Estilo para el texto dentro del botón */
+.option-button .option-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; /* Detrás de los panes inicialmente? O delante? Probemos delante */
+    color: #444; /* Color del texto */
+    font-size: 10px; /* Tamaño pequeño */
+    font-weight: bold;
+    opacity: 0; /* Oculto inicialmente */
+    transition: opacity 0.3s ease 0.1s; /* Aparece con ligero retraso */
+    pointer-events: none; /* Para no interferir con el click del botón */
+    white-space: nowrap; /* Evita que el texto se parta */
+}
+
+/* Efecto Hover en los botones opción */
+.option-button:hover .option-bun-top {
+    transform: translateY(-5px); /* Separa pan superior */
+}
+
+.option-button:hover .option-bun-bottom {
+    transform: translateY(5px); /* Separa pan inferior */
+}
+
+.option-button:hover .option-text {
+    opacity: 1; /* Muestra el texto */
+    z-index: 4; /* Asegura que esté encima de los panes al hacer hover */
+}
+
+/* --- FIN DE NUEVAS REGLAS --- */
+
+
+/* --- MANTÉN LAS REGLAS DE POSICIONAMIENTO --- */
+/* (Ajusta top/left si es necesario debido al nuevo tamaño/forma del botón) */
+.option-1 { top: 40px; left: 100px; }
+.option-2 { top: 100px; left: 35px; }
+.option-3 { top: 110px; left: 110px; }
+.option-4 { top: 165px; left: 35px; }
+
+
+/* --- NUEVO: Estilos para el cuadro de estado --- */
+.status-box {
+    position: fixed; /* Fijo en la pantalla */
+    top: 25px; /* Espacio desde arriba */
+    right: 25px; /* Espacio desde la derecha */
+    background-color: #ffffff; /* Fondo blanco */
+    border: 2px solid #ffcc80; /* Borde naranja similar al botón */
+    border-radius: 8px; /* Esquinas redondeadas */
+    padding: 10px 15px; /* Espacio interno */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Sombra suave */
+    z-index: 999; /* Por si acaso, debajo del menú principal (1000) */
+    max-width: 200px; /* Evita que sea demasiado ancho */
+    text-align: center;
+}
+
+#statusText {
+    font-size: 14px; /* Tamaño del texto */
+    color: #333; /* Color del texto */
+    font-weight: 500; /* Un poco más grueso */
+}
+/* --- FIN: Estilos para el cuadro de estado --- */
+
+/* --- Asegúrate de que el resto de tu CSS sigue igual --- */
+/* ... (todos tus estilos anteriores) ... */
+
+/* --- ESTILOS PARA MÓVILES (mantener al final) --- */
+@media (max-width: 767px) {
+    /* ... (tus estilos móviles anteriores) ... */
+
+    /* Opcional: Ajustar posición/tamaño del status-box en móvil si es necesario */
+    .status-box {
+        top: 15px;
+        right: 15px;
+        padding: 8px 12px;
+    }
+    #statusText {
+        font-size: 12px;
+    }
+}
+
+/* --- Asegúrate de que el resto de tu CSS (body, page-content, expanding-button-container, main-circular-button, logo-image, options-wrapper, .visible) sigue como estaba en la versión anterior --- */
+/* --- ESTILOS PARA MÓVILES --- */
+@media (max-width: 767px) { /* Puedes ajustar este valor (breakpoint) */
+
+    /* Forzar la visibilidad del texto en los botones de opción en móviles */
+    .options-wrapper.visible .option-button .option-text {
+        opacity: 1;
+        z-index: 4; /* Asegura que esté visible sobre los panes */
+         /* Opcional: Podrías querer ajustar el tamaño de fuente en móvil */
+        /* font-size: 9px; */
+    }
+
+    /* Mantener los panes ligeramente separados por defecto en móviles */
+    .options-wrapper.visible .option-button .option-bun-top {
+        transform: translateY(-3px); /* Separación pequeña por defecto */
+    }
+
+    .options-wrapper.visible .option-button .option-bun-bottom {
+        transform: translateY(3px); /* Separación pequeña por defecto */
+    }
+
+    /* Anular o igualar el efecto hover en móviles (ya que no hay hover real) */
+    /* Hacemos que el estado :hover sea igual al estado normal en móviles */
+    .options-wrapper.visible .option-button:hover .option-bun-top {
+        transform: translateY(-3px); /* Sin cambio extra en hover */
+    }
+
+    .options-wrapper.visible .option-button:hover .option-bun-bottom {
+        transform: translateY(3px); /* Sin cambio extra en hover */
+    }
+
+     .options-wrapper.visible .option-button:hover .option-text {
+        opacity: 1; /* Ya es 1, sin cambio extra */
+    }
+
+    /* Opcional: Si el posicionamiento necesita ajuste fino en móviles */
+    /* Podrías necesitar reajustar el top/left de .option-N aquí si */
+    /* el layout cambia mucho en pantallas pequeñas */
+    /* Ejemplo: */
+    /*
+    .option-1 { top: 30px; left: 90px; }
+    .option-2 { top: 80px; left: 25px; }
+    .option-3 { top: 90px; left: 90px; }
+    .option-4 { top: 140px; left: 25px; }
+    */
+}
+
+/* --- NUEVO: Animación Keyframe de Hamburguesa --- */
+
+/* --- Animación Keyframe de Hamburguesa (Revisado) --- */
+
+/* --- Animación Keyframe de Hamburguesa (Revisado) --- */
+
+/* Contenedor para el video animado */
+.hamburger-animation-container {
+    /* <<< CAMBIO: Ajustar o eliminar margen superior >>> */
+    /* Opción 1: Eliminar margen superior, mantener inferior */
+    margin-top: 0;
+    margin-bottom: 30px;
+    /* Opción 2: Eliminar todo el margen (si no quieres espacio abajo tampoco) */
+    /* margin: 0; */
+
+    overflow: hidden;
+    width: 100%;
+}
+
+/* ... (El resto de los estilos para #animatedHamburger y @keyframes permanece igual) ... */
+
+/* Estilo base e inicial del video animado */
+#animatedHamburger {
+    display: block; /* Correcto para ocupar espacio */
+    width: 100%;    /* <<< Clave: Ocupa el 100% del ancho del contenedor padre */
+    height: auto;   /* <<< Clave: Mantiene la proporción del vídeo */
+    max-width: 100%; /* Seguridad adicional para asegurar que no desborde */
+
+    /* Estado inicial para la animación */
+    opacity: 0;
+    transform: translateY(40px);
+
+    /* Animación (sin cambios) */
+    animation-name: slideAndFadeIn;
+    animation-duration: 1.2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+/* Definición de los Keyframes (sin cambios) */
+@keyframes slideAndFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* --- FIN: Animación Keyframe --- */
+
+/* --- Asegúrate de que el resto de tu CSS sigue igual --- */
+/* ... (todos tus estilos anteriores) ... */
+/* --- El resto del CSS (incluyendo .hamburger-animation-container si lo usas) permanece igual --- */
+
+.full-width-video {
+    width: 100%; /* Ocupa todo el ancho de la ventana */
+    max-width: none; /* Anula cualquier max-width heredado */
+    margin: 30px 0; /* Mantiene margen vertical */
+    padding: 0; /* Sin padding horizontal */
+}
+
+/* El estilo #animatedHamburger con width: 100% seguiría funcionando */
+
+/* --- MODIFICADO: Sección Descriptiva (3 columnas) --- */
+.description-section {
+    display: flex;
+    /* <<< CAMBIO: Estirar elementos para igualar altura >>> */
+    align-items: stretch; /* Reemplaza 'center'. Este es el cambio clave para la altura. */
+    justify-content: space-between;
+    gap: 20px;
+    padding: 40px 20px; /* Mantenemos padding interno */
+    /* <<< CAMBIO: Eliminar max-width y centrado horizontal >>> */
+    /* max-width: 1000px; */ /* Eliminado */
+    margin: 30px 0; /* Eliminamos 'auto', mantenemos margen vertical */
+    background-color: #e8e0d4;
+    border-radius: 15px; /* Mantenemos redondeo si quieres */
+    width: 100%; /* Asegura que intente ocupar todo el ancho */
+    box-sizing: border-box; /* Importante si usas padding/border con width 100% */
+}
+
+/* --- Las reglas para .description-text, .description-image-container, .description-image, etc., permanecen igual --- */
+.description-text {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Añadido para flex interno (opcional, si quieres controlar contenido dentro) */
+    display: flex;
+    flex-direction: column;
+}
+
+.description-text h2 {
+    margin-top: 0;
+    color: #d18830;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.description-text p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+    /* Opcional: si quieres que el párrafo ocupe espacio */
+    /* flex-grow: 1; */
+}
+
+.description-image-container {
+    flex-shrink: 0;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 4px solid #fff;
+     /* Añadido para centrar la imagen si el contenedor se estira más */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.description-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- FIN: Sección Descriptiva --- */
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 767px) {
+    /* Los estilos de apilamiento vertical para .description-section siguen igual */
+    .description-section {
+        flex-direction: column;
+        padding: 20px 15px;
+        /* max-width: 90%; */ /* Ya no es necesario limitar el ancho aquí */
+        align-items: center; /* En columna, 'stretch' (por defecto) los haría full-width */
+                             /* Si quieres centrarlos horizontalmente en móvil, usa 'center' */
+    }
+
+    /* Los estilos para order, tamaño de imagen y width 100% de los textos siguen igual */
+    .description-image-container {
+        order: 2;
+        width: 150px;
+        height: 150px;
+        margin: 20px 0;
+    }
+
+    .description-text.description-left { order: 1; }
+    .description-text.description-right { order: 3; }
+
+    .description-text {
+        width: 100%; /* O un poco menos si prefieres margen, ej. 95% */
+        max-width: 500px; /* Opcional: Limitar ancho del texto en móvil */
+        margin-left: auto; /* Centrar si usas max-width */
+        margin-right: auto; /* Centrar si usas max-width */
+        box-sizing: border-box;
+        /* Ya no necesitan display:flex interno obligatoriamente aquí */
+    }
+}
+
+
+
+
+/* --- REEMPLAZA/MODIFICA Sección Carrusel Giratorio --- */
+.carousel-section.draggable-carousel {
+    padding: 50px 0;
+    background-color: #f0f4f8;
+    position: relative;
+    overflow: hidden; /* Para contener perspectiva */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.carousel-container {
+    width: 90%;
+    max-width: 650px; /* Un poco más de ancho para acomodar */
+    /* <<< CAMBIO: Aumentar altura >>> */
+    height: 380px;
+    margin: 0 auto;
+    position: relative;
+    perspective: 1500px; /* Ajustar si es necesario */
+    cursor: grab;
+     /* border: 1px dashed green; */ /* Para depurar */
+}
+
+.carousel-container.is-dragging {
+    cursor: grabbing;
+}
+
+/* Plato Fijo Decorativo (Debajo) - MÁS GRANDE */
+.carousel-base-plate {
+    position: absolute;
+    bottom: 5px; /* Ajustar posición vertical */
+    left: 50%;
+    transform: translateX(-50%);
+    /* <<< CAMBIO: Plato más grande >>> */
+    width: 90%;        /* Más ancho */
+    max-width: 500px;  /* Límite mayor */
+    opacity: 0.7;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Plato invisible que rota los items (sin cambios) */
+.carousel-plate {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    touch-action: none;
+    z-index: 2;
+}
+
+/* Items posicionados en círculo 3D (Tamaño deseado) */
+.carousel-item {
+    position: absolute;
+    top: 50%; /* Centrado vertical inicial */
+    left: 50%; /* Centrado horizontal inicial */
+    /* <<< VERIFICAR/AJUSTAR TAMAÑO >>> */
+    width: 130px;  /* El tamaño que te gustó */
+    height: 130px;
+    margin-top: -65px; /* Mitad del alto */
+    margin-left: -65px; /* Mitad del ancho */
+    opacity: 0.75;
+    backface-visibility: hidden;
+    transform-origin: center center;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    -webkit-user-drag: none;
+    user-drag: none;
+    /* Sin fondo/sombra */
+}
+
+/* Ajustar imagen para ocupar el espacio definido */
+.carousel-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Usar contain para ver toda la imagen */
+    pointer-events: auto; /* La imagen SÍ debe ser interactiva para el drag */
+    /* Quitar pointer-events: none; si lo tenías aquí */
+}
+
+/* Estilo activo (sin cambios en la definición de clase) */
+.carousel-item.active {
+    opacity: 1;
+    z-index: 10;
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 767px) {
+    .carousel-container {
+        height: 300px; /* Ajustar altura móvil */
+        perspective: 1100px;
+    }
+    .carousel-base-plate {
+        width: 95%; /* Ajustar plato móvil */
+        max-width: 400px;
+        bottom: -5px;
+    }
+    .carousel-item {
+        /* <<< VERIFICAR/AJUSTAR TAMAÑO MÓVIL >>> */
+        width: 100px; /* Ejemplo tamaño móvil */
+        height: 100px;
+        margin-top: -50px;
+        margin-left: -50px;
+    }
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 767px) {
+    /* ... (otros estilos móviles) ... */
+   .carousel-item {
+       width: 85px; /* Ajustar tamaño base móvil */
+       height: 85px;
+       margin-top: -42.5px;
+       margin-left: -42.5px;
+   }
+}
+
+/* --- REEMPLAZA/MODIFICA Sección de Búsqueda --- */
+.search-section {
+    padding: 30px 20px; /* Reducir padding vertical */
+    /* background-color: #e8e0d4; <<< Eliminado background */
+    text-align: center;
+}
+
+/* Wrapper solo para centrar el contenedor real */
+.search-wrapper {
+    display: inline-block; /* Permite centrar con text-align */
+    max-width: 500px;
+    width: 90%;
+}
+
+/* Contenedor principal del input y el botón icono */
+.search-container.integrated-search {
+    position: relative; /* Para posicionar el botón icono */
+    display: flex; /* Mantenemos flex */
+    align-items: center;
+    background-color: #fff; /* Fondo blanco para la barra */
+    border-radius: 30px;  /* Muy redondeado */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    /* Quitamos padding que separaba botón */
+    /* padding: 5px 5px 5px 20px; */
+    overflow: hidden; /* Para asegurar bordes redondeados */
+}
+
+#burgerSearchInput {
+    flex-grow: 1;
+    padding: 12px 50px 12px 25px; /* <<< Ajustado Padding: MÁS a la derecha para icono */
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: transparent;
+    min-width: 100px;
+}
+
+#burgerSearchInput::placeholder {
+    color: #bbb; /* Placeholder un poco más claro */
+    font-style: normal;
+}
+
+/* Ocultar botón X por defecto */
+#burgerSearchInput::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Botón Ícono Lupa */
+#burgerSearchButton.search-icon-button {
+    position: absolute; /* Posición sobre el input */
+    right: 5px;       /* A la derecha, con pequeño espacio */
+    top: 50%;         /* Centrado vertical */
+    transform: translateY(-50%); /* Ajuste fino centrado vertical */
+    /* <<< Quitamos estilos de botón de texto >>> */
+    background-color: transparent;
+    border: none;
+    padding: 8px; /* Padding alrededor del icono */
+    margin: 0;
+    cursor: pointer;
+    color: #888; /* Color del icono */
+    font-size: 20px; /* Tamaño del icono (emoji) */
+    line-height: 1; /* Para alinear mejor el emoji */
+    transition: color 0.2s ease;
+}
+
+#burgerSearchButton.search-icon-button:hover {
+    color: #d18830; /* Cambia color al pasar ratón */
+}
+
+/* --- Ajustes en Media Queries (opcional) --- */
+@media (max-width: 767px) {
+    /* ... (tus estilos móviles anteriores) ... */
+
+    .search-wrapper {
+        max-width: 95%;
+    }
+
+    #burgerSearchInput {
+        font-size: 14px;
+        padding: 10px 45px 10px 20px; /* Ajustar padding móvil */
+    }
+
+    #burgerSearchButton.search-icon-button {
+        right: 3px;
+        padding: 6px;
+        font-size: 18px;
+    }
+}
+
+/* --- FIN: Sección de Búsqueda --- */
+
+/* --- MODIFICADO: Botones de Acción en Esquinas (SOLO IMAGEN) --- */
+.corner-action-button {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    bottom: 15px;
+    /* <<< QUITAMOS ESTILOS DE CONTENEDOR >>> */
+    /* background-color: #fff; */ /* Eliminado */
+    /* border-radius: 50%; */ /* Eliminado */
+    /* box-shadow: 0 5px 14px rgba(0,0,0,0.3); */ /* Eliminado */
+    /* padding: 8px; */ /* Eliminado */
+    z-index: 995;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    transition: transform 0.2s ease; /* Mantenemos transición de escala */
+    text-decoration: none;
+    /* Añadir cursor pointer si no lo tenía */
+    cursor: pointer;
+}
+
+.corner-action-button:hover {
+    transform: scale(1.1); /* Aumentar escala en hover */
+    /* box-shadow: 0 7px 18px rgba(0,0,0,0.35); */ /* Sin sombra */
+}
+.corner-action-button:active {
+    transform: scale(1.05); /* Escala ligeramente menor al hacer clic */
+}
+
+/* Ajustar imagen para llenar el área del botón */
+.corner-action-button img {
+    display: block;
+    /* <<< CAMBIO: Llenar el área definida por width/height del botón >>> */
+    width: 100%;
+    height: 100%;
+    /* max-width: 75%; */ /* Eliminado */
+    /* max-height: 75%; */ /* Eliminado */
+    object-fit: contain; /* Mantiene proporciones */
+}
+
+/* ... (Posicionamiento .corner-left / .corner-right sin cambios) ... */
+.corner-left { left: 15px; }
+.corner-right { right: 15px; }
+/* --- FIN: Botones de Acción en Esquinas --- */
+
+
+/* --- Ajustes en Media Queries (para botones de esquina) --- */
+@media (max-width: 767px) {
+    /* ... (tus estilos móviles anteriores) ... */
+
+    .corner-action-button {
+        /* <<< CAMBIO: Ajustar tamaño móvil >>> */
+        width: 65px;
+        height: 65px;
+        bottom: 10px;
+    }
+    .corner-left {
+        left: 10px;
+    }
+    .corner-right {
+        right: 10px;
+    }
+
+    /* ... (Ajuste padding footer sigue igual) ... */
+     .site-footer {
+        padding: 20px 15px 80px 15px; /* Aumentar padding-bottom */
+        font-size: 13px;
+    }
+}
+
+/* --- REEMPLAZA ESTILOS DEL FOOTER --- */
+.site-footer {
+    /* background-color: #333; */ /* Eliminado */
+    /* color: #ccc; */ /* Eliminado */
+    text-align: center; /* O left / right si prefieres */
+    padding: 15px 20px; /* Padding vertical reducido, mantenemos horizontal */
+    margin-top: 50px; /* Más espacio sobre el footer */
+    font-size: 12px;  /* Tamaño de fuente pequeño */
+    line-height: 1.4;
+    color: #666; /* Color de texto gris oscuro */
+    /* <<< LÍNEA SUPERIOR >>> */
+    border-top: 1px solid #ccc; /* Línea fina gris */
+    /* Asegurar contexto de apilamiento */
+    position: relative;
+    z-index: 1;
+}
+
+/* Quitar margen si usaste la opción de <p> separados */
+/* .site-footer p {
+    margin: 0;
+} */
+
+/* Estilo del enlace en el nuevo footer */
+.site-footer a {
+    color: #555; /* Color más oscuro para el enlace */
+    text-decoration: none;
+    font-weight: normal; /* Sin negrita */
+}
+
+.site-footer a:hover {
+    color: #000; /* Negro al pasar ratón */
+    text-decoration: underline;
+}
+/* --- FIN: REEMPLAZO ESTILOS FOOTER --- */
+
+
+/* --- MEDIA QUERIES (Ajuste) --- */
+@media (max-width: 767px) {
+    /* ... (tus estilos móviles anteriores para botones, etc.) ... */
+
+     /* <<< ELIMINAR padding-bottom extra del footer en móvil >>> */
+    .site-footer {
+        padding: 15px 15px; /* Padding igual que desktop o ajustado */
+        font-size: 11px; /* Más pequeño aún */
+        /* padding-bottom: 80px; <--- ELIMINAR ESTA LÍNEA */
+    }
+
+    /* Los botones de esquina ya están posicionados, flotarán sobre el footer */
+    .corner-action-button {
+        width: 65px;
+        height: 65px;
+        bottom: 10px;
+    }
+    .corner-left { left: 10px; }
+    .corner-right { right: 10px; }
+}
+
+/* ... (Resto del CSS) ... */

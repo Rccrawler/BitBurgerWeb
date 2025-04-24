@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Botón Hamburguesa</title>
+  <style>
+    body {
+      background: #f8f3e6;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .burger-button {
+      position: relative;
+      width: 200px;
+      height: 160px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .bun-top, .bun-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 45px;
+      background: #d18830;
+      z-index: 3;
+      transition: transform 0.4s ease;
+    }
+
+    .bun-top {
+      top: 57px;
+      border-radius: 80px 80px 30px 30px;
+    }
+
+    .bun-bottom {
+      bottom: 57px;
+      border-radius: 0 0 80px 80px;
+    }
+
+    .burger-button:hover .bun-top {
+      transform: translateY(-55px);
+    }
+
+    .burger-button:hover .bun-bottom {
+      transform: translateY(55px);
+    }
+
+    .sesame {
+      width: 5px;
+      height: 2px;
+      background: #fff3c0;
+      border-radius: 50%;
+      position: absolute;
+      transform: rotate(-20deg);
+      opacity: 0.8;
+    }
+
+    .bun-top .sesame:nth-child(1) { top: 10px; left: 30px; }
+    .bun-top .sesame:nth-child(2) { top: 12px; left: 60px; }
+    .bun-top .sesame:nth-child(3) { top: 8px; left: 90px; }
+    .bun-top .sesame:nth-child(4) { top: 15px; left: 120px; }
+    .bun-top .sesame:nth-child(5) { top: 10px; left: 150px; }
+
+    .ingredient {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 22px;
+      opacity: 0;
+      transform: scaleY(0);
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      z-index: 2;
+      border-radius: 10px;
+    }
+
+    .lettuce { top: 48px; background: #66bb55; }
+    .cheese  { top: 70px; background: #fdd835; }
+    .meat    { top: 92px; background: #8b4513; }
+
+    .burger-button:hover .ingredient {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    .burger-button span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      pointer-events: none;
+      text-align: center;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <button class="burger-button">
+    <div class="bun-top">
+      <div class="sesame"></div>
+      <div class="sesame"></div>
+      <div class="sesame"></div>
+      <div class="sesame"></div>
+      <div class="sesame"></div>
+    </div>
+
+    <div class="ingredient lettuce"></div>
+    <div class="ingredient cheese"></div>
+    <div class="ingredient meat"></div>
+
+    <div class="bun-bottom"></div>
+
+    <span>¡ORDENA<br>YA!</span>
+  </button>
+
+</body>
+</html>
+
+
